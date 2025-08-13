@@ -115,6 +115,9 @@ func NewOnlideskServer(configPath string) (*OnlideskServer, error) {
 
 // setupRoutes configures all HTTP routes
 func (s *OnlideskServer) setupRoutes() {
+	// Root redirect to portal
+	s.router.HandleFunc("/", s.handleRoot).Methods("GET")
+
 	// Health check endpoint
 	s.router.HandleFunc("/health", s.handleHealth).Methods("GET")
 
@@ -362,6 +365,11 @@ func (s *OnlideskServer) handleFileDownload(w http.ResponseWriter, r *http.Reque
 	w.Header().Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", session.Request.Filename))
 	w.Header().Set("Content-Type", "application/octet-stream")
 	http.ServeFile(w, r, session.TempPath)
+}
+
+// handleRoot serves the main portal page
+func (s *OnlideskServer) handleRoot(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/portal/index.html")
 }
 
 // Start starts the server
