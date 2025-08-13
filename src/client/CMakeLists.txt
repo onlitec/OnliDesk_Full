@@ -16,6 +16,9 @@ set(CMAKE_AUTORCC ON)
 # Include directories
 include_directories(include)
 
+# Add file transfer subdirectory
+add_subdirectory(src/filetransfer)
+
 # Source files
 set(SOURCES
     src/main.cpp
@@ -61,6 +64,7 @@ target_link_libraries(OnlideskClient
     Qt6::Widgets
     Qt6::Network
     Qt6::WebSockets
+    filetransfer
 )
 
 # Platform-specific configurations
